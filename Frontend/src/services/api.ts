@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API_URL = 'https://localhost:7134/api'; // (Asegúrate de que el puerto sea el tuyo)
+// Vite leerá la variable de internet, y si no la encuentra (como en tu PC), usará localhost
+const API_URL = import.meta.env.VITE_API_URL || 'https://fixtrack-api.onrender.com/'; 
 
 export const api = axios.create({
   baseURL: API_URL,
