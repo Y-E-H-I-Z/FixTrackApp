@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { CssBaseline } from '@mui/material';
-import Dashboard from './pages/Dashboard.tsx';
+import Dashboard from './pages/dashboard.tsx';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register'; // <-- 1. IMPORTAMOS EL COMPONENTE
