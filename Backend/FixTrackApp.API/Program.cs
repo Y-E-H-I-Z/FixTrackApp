@@ -86,13 +86,14 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 // 7. CORS
+// --- AÑADE ESTO ANTES DE builder.Build() ---
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("PermitirFrontend", policy =>
+    options.AddPolicy("NuevaPoliticaCors", policy =>
     {
-        policy.WithOrigins("http://localhost:5173")
-              .AllowAnyHeader()
-              .AllowAnyMethod();
+        policy.AllowAnyOrigin()    // Permite peticiones desde cualquier dominio (Vercel, localhost, etc.)
+              .AllowAnyMethod()    // Permite GET, POST, PUT, DELETE, etc.
+              .AllowAnyHeader();   // Permite cualquier cabecera (incluyendo el Token de Autorización)
     });
 });
 
@@ -106,7 +107,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseCors("PermitirFrontend");
+app.UseCors("NuevaPoliticaCors");
 
 app.UseAuthentication();
 app.UseAuthorization();
