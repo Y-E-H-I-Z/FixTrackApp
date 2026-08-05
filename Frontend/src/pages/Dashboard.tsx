@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../services/api';
-import type { Ticket } from '../interfaces/Ticket'; 
+import type { Ticket } from '../interfaces/ticket'; 
 import { 
   Table, TableBody, TableCell, TableContainer, 
   TableHead, TableRow, Paper, Typography, Container, 
@@ -10,7 +10,6 @@ import {
 } from '@mui/material';
 import type { SelectChangeEvent } from '@mui/material';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp'; 
-// --- 1. IMPORTAMOS LOS NUEVOS ÍCONOS ---
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 
@@ -19,9 +18,6 @@ export default function Dashboard() {
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const [openModal, setOpenModal] = useState(false);
   const [guardando, setGuardando] = useState(false);
-  
-  // --- 2. NUEVO ESTADO PARA SABER SI ESTAMOS EDITANDO ---
-  // Si es null, estamos creando. Si tiene un número, es el ID del ticket que estamos editando.
   const [editandoId, setEditandoId] = useState<number | null>(null);
   
   const [formData, setFormData] = useState({
@@ -58,16 +54,14 @@ export default function Dashboard() {
     });
   };
 
-  // --- 3. FUNCIÓN PARA ABRIR EL MODAL EN MODO "NUEVO" ---
   const abrirModalNuevo = () => {
-    setEditandoId(null); // Reseteamos el modo edición
+    setEditandoId(null);
     setFormData({ fullName: '', phoneNumber: '', dni: '', deviceInfo: '', reportedIssue: '', estimatedPrice: 0 });
     setOpenModal(true);
   };
 
-  // --- 4. FUNCIÓN PARA ABRIR EL MODAL EN MODO "EDITAR" ---
   const abrirModalEdicion = (ticket: Ticket) => {
-    setEditandoId(ticket.id); // Guardamos qué ticket vamos a editar
+    setEditandoId(ticket.id);
     setFormData({
       fullName: ticket.customer?.fullName || '',
       phoneNumber: ticket.customer?.phoneNumber || '',
@@ -79,14 +73,13 @@ export default function Dashboard() {
     setOpenModal(true);
   };
 
-  // --- 5. FUNCIÓN UNIFICADA (CREAR O EDITAR) ---
   const handleGuardarTicket = async () => {
     setGuardando(true); 
     try {
       const ticketData = {
         deviceInfo: formData.deviceInfo,
         reportedIssue: formData.reportedIssue,
-        status: "Recibido", // Si estamos editando, el backend ignorará esto y mantendrá el estado actual
+        status: "Recibido",
         estimatedPrice: formData.estimatedPrice,
         customer: {
           fullName: formData.fullName,
@@ -96,10 +89,8 @@ export default function Dashboard() {
       };
 
       if (editandoId === null) {
-        // MODO CREAR
         await api.post('/Tickets', ticketData);
       } else {
-        // MODO EDITAR: Añadimos el ID para cumplir con el modelo
         const ticketParaActualizar = { ...ticketData, id: editandoId };
         await api.put(`/Tickets/${editandoId}`, ticketParaActualizar);
       }
@@ -114,13 +105,11 @@ export default function Dashboard() {
     }
   };
 
-  // --- 6. FUNCIÓN PARA ELIMINAR ---
   const handleEliminarTicket = async (id: number) => {
-    // Pedimos confirmación antes de borrar
     if (window.confirm("¿Estás seguro de que deseas eliminar este ticket permanentemente?")) {
       try {
         await api.delete(`/Tickets/${id}`);
-        cargarTickets(); // Recargamos la tabla
+        cargarTickets();
       } catch (error) {
         console.error("Error al eliminar:", error);
         alert("No se pudo eliminar el ticket.");
@@ -156,18 +145,17 @@ export default function Dashboard() {
   
   return (
     <Container maxWidth="lg" sx={{ mt: 5 }}>
-      <Box display="flex" justifyContent="space-between" alignItems="center" mb={3}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
         <Typography variant="h4" sx={{ fontWeight: 'bold' }}>
           Panel de Control - FixTrackApp
         </Typography>
-        <Box display="flex" gap={2}>
+        <Box sx={{ display: 'flex', gap: 2 }}>
           <Button variant="outlined" color="error" onClick={() => {
             localStorage.removeItem('token'); 
             navigate('/login'); 
           }}>
             Cerrar Sesión
           </Button>
-          {/* Cambiamos para usar la nueva función de "Nuevo" */}
           <Button variant="contained" color="primary" onClick={abrirModalNuevo}>
             + Nuevo Ingreso
           </Button>
@@ -215,7 +203,6 @@ export default function Dashboard() {
                       <MenuItem value="Entregado">Entregado</MenuItem>
                     </Select>
                   </TableCell>
-                  {/* --- 7. BOTONES DE ACCIONES ACTUALIZADOS --- */}
                   <TableCell align="center">
                     <IconButton color="primary" onClick={() => abrirModalEdicion(ticket)} title="Editar Ticket">
                       <EditIcon />
@@ -235,7 +222,6 @@ export default function Dashboard() {
       </TableContainer>
 
       <Dialog open={openModal} onClose={() => setOpenModal(false)} maxWidth="sm" fullWidth>
-        {/* Cambiamos el título dependiendo de si editamos o creamos */}
         <DialogTitle sx={{ fontWeight: 'bold' }}>
           {editandoId ? 'Editar Equipo' : 'Registrar Nuevo Equipo'}
         </DialogTitle>
@@ -245,7 +231,7 @@ export default function Dashboard() {
             Datos del Cliente
           </Typography>
           <TextField fullWidth margin="dense" label="Nombre Completo" name="fullName" value={formData.fullName} onChange={handleInputChange} required />
-          <Box display="flex" gap={2}>
+          <Box sx={{ display: 'flex', gap: 2 }}>
             <TextField fullWidth margin="dense" label="WhatsApp (Teléfono)" name="phoneNumber" value={formData.phoneNumber} onChange={handleInputChange} />
             <TextField fullWidth margin="dense" label="DNI (Opcional)" name="dni" value={formData.dni} onChange={handleInputChange} />
           </Box>
@@ -255,7 +241,6 @@ export default function Dashboard() {
           </Typography>
           <TextField fullWidth margin="dense" label="Equipo (Ej: Laptop Lenovo T480)" name="deviceInfo" value={formData.deviceInfo} onChange={handleInputChange} required />
           <TextField fullWidth margin="dense" label="Falla Reportada" name="reportedIssue" value={formData.reportedIssue} onChange={handleInputChange} multiline rows={3} required />
-          {/* Añadimos campo para Precio (opcional para el MVP, pero útil) */}
           <TextField fullWidth margin="dense" label="Precio Estimado (S/)" name="estimatedPrice" type="number" value={formData.estimatedPrice} onChange={handleInputChange} />
           
         </DialogContent>

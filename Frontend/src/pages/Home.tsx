@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { api } from '../services/api';
-import type { Ticket } from '../interfaces/Ticket';
+import type { Ticket } from '../interfaces/ticket';
 import { 
   Container, Typography, TextField, Button, 
   Card, CardContent, Box, Alert, CircularProgress 
@@ -13,7 +13,7 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
 
   const buscarTicket = async (e: React.FormEvent) => {
-    e.preventDefault(); // Evita que la página se recargue al enviar el formulario
+    e.preventDefault();
     
     if (!trackingCode.trim()) return;
 
@@ -22,7 +22,6 @@ export default function Home() {
     setTicket(null);
 
     try {
-      // Consumimos el endpoint público que creamos en la Fase 2
       const response = await api.get(`/Tickets/Track/${trackingCode.trim()}`);
       setTicket(response.data);
     } catch (err: any) {
@@ -38,14 +37,13 @@ export default function Home() {
 
   return (
     <Container maxWidth="sm" sx={{ mt: 10, textAlign: 'center' }}>
-      <Typography variant="h3" fontWeight="bold" color="primary" gutterBottom>
+      <Typography variant="h3" color="primary" gutterBottom sx={{ fontWeight: 'bold' }}>
         FixTrack
       </Typography>
       <Typography variant="subtitle1" color="textSecondary" gutterBottom>
         Consulta el estado de tu reparación en tiempo real
       </Typography>
 
-      {/* Formulario de búsqueda */}
       <Box component="form" onSubmit={buscarTicket} sx={{ mt: 4, mb: 4, display: 'flex', gap: 1 }}>
         <TextField 
           fullWidth 
@@ -65,17 +63,15 @@ export default function Home() {
         </Button>
       </Box>
 
-      {/* Mensaje de error */}
       {error && <Alert severity="error">{error}</Alert>}
 
-      {/* Tarjeta de resultado */}
       {ticket && (
         <Card elevation={4} sx={{ mt: 3, textAlign: 'left', borderRadius: 3 }}>
           <CardContent>
             <Typography variant="overline" color="textSecondary">
               Código: {ticket.trackingCode}
             </Typography>
-            <Typography variant="h5" fontWeight="bold" gutterBottom>
+            <Typography variant="h5" gutterBottom sx={{ fontWeight: 'bold' }}>
               {ticket.deviceInfo}
             </Typography>
             
@@ -84,12 +80,12 @@ export default function Home() {
               <Typography variant="body1">{ticket.reportedIssue}</Typography>
             </Box>
 
-            <Box display="flex" justifyContent="space-between" alignItems="center" mt={3}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 3 }}>
               <Typography variant="subtitle1">Estado actual:</Typography>
               <Typography 
                 variant="h6" 
-                fontWeight="bold"
                 color={ticket.status === 'Listo' || ticket.status === 'Entregado' ? 'success.main' : 'warning.main'}
+                sx={{ fontWeight: 'bold' }}
               >
                 {ticket.status}
               </Typography>

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom';
 import { api } from '../services/api';
 import { 
   Container, Box, Typography, TextField, 
@@ -12,7 +12,6 @@ export default function Login() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   
-  // Hook de React Router para cambiar de página mediante código
   const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -21,13 +20,8 @@ export default function Login() {
     setLoading(true);
 
     try {
-      // 1. Enviamos las credenciales al backend
       const response = await api.post('/Auth/login', { username, password });
-      
-      // 2. Si es exitoso, guardamos el Token en el LocalStorage
       localStorage.setItem('token', response.data.token);
-      
-      // 3. Redirigimos al usuario al panel de administración
       navigate('/admin');
     } catch (err) {
       console.error(err);
@@ -40,10 +34,10 @@ export default function Login() {
   return (
     <Container maxWidth="xs" sx={{ mt: 10 }}>
       <Paper elevation={4} sx={{ p: 4, display: 'flex', flexDirection: 'column', alignItems: 'center', borderRadius: 3 }}>
-        <Typography variant="h4" fontWeight="bold" color="primary" gutterBottom>
+        <Typography variant="h4" color="primary" gutterBottom sx={{ fontWeight: 'bold' }}>
           Acceso Técnico
         </Typography>
-        <Typography variant="body2" color="textSecondary" mb={3}>
+        <Typography variant="body2" color="textSecondary" sx={{ mb: 3 }}>
           Ingresa tus credenciales para administrar
         </Typography>
 
@@ -65,8 +59,7 @@ export default function Login() {
             {loading ? 'Ingresando...' : 'Iniciar Sesión'}
           </Button>
 
-          {/* --- AÑADE ESTO --- */}
-          <Box textAlign="center" mt={1}>
+          <Box sx={{ textAlign: 'center', mt: 1 }}>
             <Typography variant="body2" color="textSecondary">
               ¿Tu taller aún no usa FixTrack?{' '}
               <Link to="/register" style={{ color: '#1976d2', textDecoration: 'none', fontWeight: 'bold' }}>
@@ -74,7 +67,6 @@ export default function Login() {
               </Link>
             </Typography>
           </Box>
-          {/* ------------------ */}
         </Box>
       </Paper>
     </Container>

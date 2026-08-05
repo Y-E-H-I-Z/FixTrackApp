@@ -30,16 +30,11 @@ export default function Register() {
     setLoading(true);
 
     try {
-      // Consumimos el endpoint de registro de tu backend
       await api.post('/Auth/register', formData);
-      
       setSuccess('¡Taller registrado con éxito! Redirigiendo al login...');
-      
-      // Esperamos 2 segundos para que el usuario lea el mensaje y lo mandamos al login
       setTimeout(() => {
         navigate('/login');
       }, 2000);
-      
     } catch (err: any) {
       console.error(err);
       setError('Hubo un error al registrar el taller. Verifica los datos e intenta de nuevo.');
@@ -51,10 +46,10 @@ export default function Register() {
   return (
     <Container maxWidth="xs" sx={{ mt: 8 }}>
       <Paper elevation={4} sx={{ p: 4, display: 'flex', flexDirection: 'column', alignItems: 'center', borderRadius: 3 }}>
-        <Typography variant="h4" fontWeight="bold" color="primary" gutterBottom>
+        <Typography variant="h4" color="primary" gutterBottom sx={{ fontWeight: 'bold' }}>
           Nuevo Taller
         </Typography>
-        <Typography variant="body2" color="textSecondary" mb={3} textAlign="center">
+        <Typography variant="body2" color="textSecondary" sx={{ mb: 3, textAlign: 'center' }}>
           Registra tu negocio para empezar a gestionar tus reparaciones
         </Typography>
 
@@ -86,7 +81,7 @@ export default function Register() {
             {loading ? 'Registrando...' : 'Registrar Taller'}
           </Button>
           
-          <Box textAlign="center" mt={1}>
+          <Box sx={{ textAlign: 'center', mt: 1 }}>
             <Typography variant="body2" color="textSecondary">
               ¿Ya tienes cuenta? <Link to="/login" style={{ color: '#1976d2', textDecoration: 'none', fontWeight: 'bold' }}>Inicia sesión aquí</Link>
             </Typography>
