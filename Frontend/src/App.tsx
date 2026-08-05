@@ -1,9 +1,9 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { CssBaseline } from '@mui/material';
-import Dashboard from './pages/dashboard.tsx';
+import Dashboard from './pages/Dashboard'; // <--- Asegúrate de que sea 'Dashboard' con 'D' mayúscula
 import Home from './pages/Home';
 import Login from './pages/Login';
-import Register from './pages/Register'; // <-- 1. IMPORTAMOS EL COMPONENTE
+import Register from './pages/Register';
 
 function App() {
   return (
@@ -12,7 +12,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} /> 
         <Route path="/login" element={<Login />} />  
-        <Route path="/register" element={<Register />} /> {/* <-- 2. AÑADIMOS LA RUTA */}
+        <Route path="/register" element={<Register />} /> 
         <Route path="/admin" element={<Dashboard />} /> 
       </Routes>
     </BrowserRouter>
