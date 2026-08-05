@@ -138,7 +138,7 @@ export default function Dashboard() {
     if (!telefono.startsWith('51') && !telefono.startsWith('+')) {
       telefono = `51${telefono}`;
     }
-    const mensaje = `Hola ${ticket.customer.fullName}, te saludamos del servicio técnico. Te informamos que tu equipo (${ticket.deviceInfo}) actualmente se encuentra: *${ticket.status}*. Puedes hacer el seguimiento con tu código ${ticket.trackingCode} aquí: http://localhost:5173/`;
+    const mensaje = `Hola ${ticket.customer.fullName}, te saludamos del servicio técnico. Te informamos que tu equipo (${ticket.deviceInfo}) actualmente se encuentra: *${ticket.status}*. Puedes hacer el seguimiento con tu código ${ticket.trackingCode} aquí: https://fix-track-app-orpin.vercel.app/`;
     const url = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
     window.open(url, '_blank');
   };
