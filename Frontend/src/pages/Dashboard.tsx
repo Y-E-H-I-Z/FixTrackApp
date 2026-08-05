@@ -145,18 +145,25 @@ export default function Dashboard() {
   
   return (
     <Container maxWidth="lg" sx={{ mt: 5 }}>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-        <Typography variant="h4" sx={{ fontWeight: 'bold' }}>
-          Panel de Control - FixTrackApp
+      <Box sx={{ 
+        display: 'flex', 
+        flexDirection: { xs: 'column', sm: 'row' }, // Se pone en columna en celular y en fila en tablets/PC
+        justifyContent: 'space-between', 
+        alignItems: { xs: 'stretch', sm: 'center' }, 
+        gap: 2,
+        mb: 3 
+      }}>
+        <Typography variant="h5" sx={{ fontWeight: 'bold', fontSize: { xs: '1.25rem', sm: '1.75rem' } }}>
+          Panel de Control
         </Typography>
-        <Box sx={{ display: 'flex', gap: 2 }}>
-          <Button variant="outlined" color="error" onClick={() => {
+        <Box sx={{ display: 'flex', gap: 1, justifyContent: { xs: 'space-between', sm: 'flex-end' } }}>
+          <Button variant="outlined" color="error" size="small" onClick={() => {
             localStorage.removeItem('token'); 
             navigate('/login'); 
           }}>
             Cerrar Sesión
           </Button>
-          <Button variant="contained" color="primary" onClick={abrirModalNuevo}>
+          <Button variant="contained" color="primary" size="small" onClick={abrirModalNuevo}>
             + Nuevo Ingreso
           </Button>
         </Box>
