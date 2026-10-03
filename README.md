@@ -14,7 +14,8 @@
 
 ## 📸 Pantallas de la Aplicación
 
-> **Nota para Franco:** *[Aquí debes arrastrar y soltar 2 o 3 capturas de pantalla de tu app funcionando. Te sugiero una del Dashboard del administrador y otra de la vista del cliente rastreando su equipo].*
+<img width="1121" height="1244" alt="image" src="https://github.com/user-attachments/assets/8568b76e-1150-4e31-a4cb-b46392345d39" />
+
 
 ---
 
